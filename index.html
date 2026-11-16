@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ONS Finance — Mortgage brokers for Australian home loans</title>
+<meta name="description" content="ONS Finance is an Australian mortgage broker. We compare home loans across lenders and guide you from first conversation to settlement.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231F2A24'/%3E%3Ctext x='32' y='46' text-anchor='middle' fill='%23F6F1E7' font-size='44' font-family='Georgia'%3EO%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F1E7; --paper-deep:#EDE5D6; --ink:#1F2A24; --muted:#6B6F66; --line:#DDD3C0;
+  --accent:#B84E27; --accent-soft:#E9A27F;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
+  --ease:cubic-bezier(.2,.7,.1,1);
+  --shell:1180px;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased}
+/* paper grain over everything */
+body::before{content:"";position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.5;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .22 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:inherit}
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.015em;margin:0}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+.shell{width:min(100% - 48px,var(--shell));margin-inline:auto}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+/* header */
+.top{position:sticky;top:0;z-index:40;background:rgba(246,241,231,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.top .shell{display:flex;align-items:center;gap:28px;height:76px}
+.mark{font-family:var(--serif);font-size:25px;letter-spacing:-.02em;text-decoration:none;margin-right:auto;white-space:nowrap}
+.top nav{display:flex;gap:26px}
+.top nav a,.phone{font-size:16px;text-decoration:none;color:var(--muted);transition:color .2s}
+.top nav a:hover,.phone:hover{color:var(--ink)}
+.phone{font-weight:500;color:var(--ink);white-space:nowrap}
+.btn{display:inline-block;font:600 17px/1 var(--sans);color:#fff;background:var(--accent);border:0;border-radius:12px;padding:17px 24px;text-decoration:none;cursor:pointer;transition:background .2s,transform .2s var(--ease)}
+.btn:hover{background:#9F4220}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{background:#C9BFAE;cursor:not-allowed}
+.btn.small{padding:13px 18px;font-size:16px}
+.btn.ghost{background:none;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.textlink{font:500 16px var(--sans);color:var(--ink);background:none;border:0;padding:8px 2px;cursor:pointer;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:6px}
+.textlink:hover{text-decoration-color:var(--accent)}
+.auth{display:flex;align-items:center;gap:14px;white-space:nowrap;font-size:16px}
+.auth img{width:30px;height:30px;border-radius:50%}
+dialog{border:0;border-radius:22px;padding:40px 38px 34px;width:min(92vw,430px);background:#FBF8F1;color:var(--ink);box-shadow:0 30px 80px rgba(31,42,36,.28)}
+dialog::backdrop{background:rgba(31,42,36,.45);backdrop-filter:blur(3px)}
+dialog[open]{animation:pop .45s var(--ease)}
+@keyframes pop{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+dialog h3{font-size:34px;margin-bottom:10px}
+dialog #googleBtn{margin-top:24px;min-height:44px}
+dialog .close{position:absolute;right:16px;top:12px;font-size:30px;line-height:1;background:none;border:0;color:var(--muted);cursor:pointer}
+.btn.quiet{background:none;color:var(--ink);padding-inline:0;font-weight:500;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:6px}
+.btn.quiet:hover{background:none;text-decoration-color:var(--accent)}
+
+/* hero */
+.hero{position:relative;overflow:hidden;padding:84px 0 72px}
+.hero::after{content:"";position:absolute;right:-12%;top:-30%;width:70%;translate:var(--gx,0px) var(--gy,0px);aspect-ratio:1;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(184,78,39,.20),rgba(184,78,39,.07) 55%,transparent)}
+.contours{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.contours{animation:breathe 26s ease-in-out infinite alternate}
+@keyframes breathe{from{transform:scale(1) translate(0,0)}to{transform:scale(1.07) translate(-1.5%,1.2%)}}
+.contours g{transform-origin:74% 46%;transition:transform 1.6s var(--ease)}
+.contours path{fill:none;stroke:var(--ink);stroke-opacity:.14;stroke-width:1;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2s var(--ease) forwards}
+.contours path.hot{stroke:var(--accent);stroke-opacity:.75;stroke-width:1.4}
+@keyframes draw{to{stroke-dashoffset:0}}
+.hero .shell{position:relative;z-index:2}
+.kicker{font-size:17px;color:var(--muted);margin-bottom:22px}
+.hero h1{font-size:clamp(46px,7.4vw,98px);line-height:1.02;max-width:11.5em;min-height:2.1em}
+.hero h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.12em;margin-bottom:-.12em}
+.hero h1 .w>span{display:inline-block;transform:translateY(112%);animation:rise .9s var(--ease) forwards}
+@keyframes rise{to{transform:none}}
+.picker{display:flex;flex-wrap:wrap;gap:6px 26px;margin:40px 0 0}
+.picker button{font:500 18px/1.3 var(--sans);color:var(--muted);background:none;border:0;padding:8px 0;cursor:pointer;position:relative;transition:color .25s}
+.picker button::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+.picker button:hover{color:var(--ink)}
+.picker button[aria-selected="true"]{color:var(--ink)}
+.picker button[aria-selected="true"]::after{transform:scaleX(1)}
+.blurb{font-size:22px;line-height:1.5;max-width:31em;margin-top:30px;min-height:4.5em}
+.hero .actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px;margin-top:34px}
+.fadein{opacity:0;animation:fade 1s .7s var(--ease) forwards}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* situation detail */
+.detail{padding:8px 0 96px}
+.detail .cols{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:56px;border-top:1px solid var(--line);padding-top:38px;transition:opacity .22s,transform .22s}
+.detail .cols.swap{opacity:0;transform:translateY(8px)}
+.label{font:600 15px/1.3 var(--sans);color:var(--muted);margin-bottom:16px}
+.detail li{padding:11px 0;border-bottom:1px solid var(--line)}
+.detail li:last-child{border-bottom:0}
+.know p{font-family:var(--serif);font-size:25px;line-height:1.35;letter-spacing:-.01em}
+.know p.label{font:600 15px/1.3 var(--sans);letter-spacing:0}
+.know small{display:block;font-size:14px;color:var(--muted);margin-top:14px}
+
+/* sections */
+.band{padding:104px 0}
+.band.deep{background:var(--paper-deep)}
+.band h2{font-size:clamp(34px,4.6vw,58px);line-height:1.08;max-width:15em}
+.band .intro{font-size:21px;max-width:33em;margin-top:22px;color:#3d463f}
+.source{font-size:14px;color:var(--muted);margin-top:14px}
+
+.reasons{margin-top:64px;display:grid;grid-template-columns:repeat(3,1fr);gap:56px}
+.reasons h3{font-size:27px;line-height:1.2;margin-bottom:12px}
+.reasons p{color:#3d463f}
+
+.steps{margin-top:64px;counter-reset:step}
+.steps li{counter-increment:step;display:grid;grid-template-columns:120px 1fr 1.3fr;gap:32px;align-items:baseline;padding:30px 0;border-top:1px solid var(--line)}
+.steps li::before{content:counter(step);font-family:var(--serif);font-size:64px;line-height:.9;color:var(--accent)}
+.steps h3{font-size:29px}
+.steps p{color:#3d463f}
+
+/* cost: the one dark moment */
+.cost{background:var(--ink);color:var(--paper)}
+.cost h2{max-width:none}
+.cost .answer{font-family:var(--serif);font-size:clamp(46px,7.4vw,98px);line-height:1.02;letter-spacing:-.02em;color:var(--accent-soft);margin-top:10px}
+.cost .intro{color:#d9d5c8}
+.cost .lines{margin-top:56px;max-width:860px}
+.cost .lines li{display:flex;justify-content:space-between;gap:24px;padding:20px 0;border-top:1px solid rgba(246,241,231,.18)}
+.cost .lines span:last-child{color:var(--accent-soft);text-align:right;white-space:nowrap}
+.cost .source{color:#aeb3a8}
+.cost a{color:var(--accent-soft)}
+
+.about{display:grid;grid-template-columns:1.1fr 1fr;gap:72px;align-items:start}
+.about p+p{margin-top:18px}
+.promise li{font-family:var(--serif);font-size:clamp(38px,5vw,64px);line-height:1.12;letter-spacing:-.02em;padding:14px 0;border-bottom:1px solid var(--line)}
+.promise li:last-child{border-bottom:0}
+
+.faq{margin-top:48px;max-width:860px}
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{font-family:var(--serif);font-size:26px;line-height:1.25;padding:24px 44px 24px 0;cursor:pointer;list-style:none;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:18px;font-size:32px;color:var(--accent);transition:transform .35s var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 0 26px;max-width:38em;color:#3d463f}
+
+/* enquiry */
+.enquiry{display:grid;grid-template-columns:1fr 1.1fr;gap:72px;align-items:start}
+.reach{margin-top:34px;font-size:20px}
+.reach a{display:block;width:fit-content;margin-top:6px;text-decoration-color:var(--accent);text-underline-offset:5px}
+form{background:#FBF8F1;border-radius:22px;padding:38px}
+.progress{font:600 15px var(--sans);color:var(--muted)}
+.bar{height:3px;background:var(--line);border-radius:3px;margin:12px 0 30px;overflow:hidden}
+.bar i{display:block;height:100%;width:33.3%;background:var(--accent);transition:width .5s var(--ease)}
+.stage{display:none}
+.stage.on{display:block;animation:fade .45s var(--ease)}
+.stage h3{font-size:30px;margin-bottom:22px}
+label{display:block;font:500 15px var(--sans);margin:18px 0 7px}
+input,select{width:100%;font:400 18px var(--sans);color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 15px}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.hint{font-size:15px;color:var(--muted);margin-top:14px}
+.formactions{display:flex;justify-content:space-between;align-items:center;margin-top:30px}
+
+footer{padding:56px 0 44px;border-top:1px solid var(--line)}
+footer .shell{display:flex;flex-wrap:wrap;gap:20px 40px;align-items:baseline}
+footer .mark{margin-right:auto}
+footer a{font-size:16px;color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--ink)}
+footer small{flex-basis:100%;font-size:14px;color:var(--muted);margin-top:18px}
+
+/* legal pages */
+.legal{padding:72px 0 110px;max-width:780px}
+.legal h1{font-size:clamp(40px,5.4vw,66px);line-height:1.06}
+.legal .lead{font-size:20px;color:var(--muted);margin-top:18px}
+.legal h2{font-size:27px;margin:44px 0 10px}
+.legal .back{display:inline-block;margin-bottom:30px;font-size:16px;color:var(--muted)}
+
+/* page + scroll transitions */
+#view{transition:opacity .28s,transform .28s var(--ease)}
+#view.leaving{opacity:0;transform:translateY(14px)}
+.js .rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+
+.top nav a,.btn{white-space:nowrap}
+@media (max-width:1500px){.top .phone{display:none}}
+@media (max-width:980px){
+  .top nav{display:none}
+  .top .shell{gap:16px}
+  .detail .cols,.reasons,.about,.enquiry{grid-template-columns:1fr;gap:40px}
+  .steps li{grid-template-columns:70px 1fr;gap:8px 20px}
+  .steps li p{grid-column:2}
+  .band{padding:76px 0}
+  .hero{padding:56px 0 56px}
+}
+@media (max-width:560px){
+  body{font-size:17px}
+  .phone,.auth [data-auth=signup],.auth .who{display:none}
+  .mark{font-size:21px}
+  .btn.small{padding:12px 13px;font-size:15px}
+  .contours{opacity:.55}
+  .blurb{font-size:19px}
+  form{padding:26px 20px}
+  .cost .lines li{flex-direction:column;gap:2px}
+  .cost .lines span:last-child{text-align:left;white-space:normal}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+  .js .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="shell">
+    <a class="mark" href="#/" data-to="top">ONS Finance</a>
+    <nav aria-label="Main">
+      <a href="#/" data-to="loans">Home loans</a>
+      <a href="#/" data-to="how">How it works</a>
+      <a href="#/" data-to="cost">What it costs</a>
+      <a href="#/" data-to="about">About</a>
+      <a href="#/" data-to="questions">Questions</a>
+    </nav>
+    <a class="phone" href="tel:+61434398299">+61 434 398 299</a>
+    <span class="auth" id="auth">
+      <button type="button" class="textlink" data-auth="login">Log in</button>
+      <button type="button" class="btn small ghost" data-auth="signup">Sign up</button>
+    </span>
+    <a class="btn small" href="#/" data-to="enquiry">Start an enquiry</a>
+  </div>
+</header>
+
+<div id="view">
+<main id="home">
+
+  <section class="hero" id="top">
+    <svg class="contours" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g id="rings"></g></svg>
+    <div class="shell" id="loans">
+      <p class="kicker fadein" style="animation-delay:.1s">Mortgage brokers for Australian home loans. Tell us where you are:</p>
+      <h1 id="headline" aria-live="polite">I’m buying my first home.</h1>
+      <div class="picker fadein" role="tablist" aria-label="Your situation" id="picker"></div>
+      <p class="blurb fadein" id="blurb"></p>
+      <div class="actions fadein" style="animation-delay:.85s">
+        <a class="btn" href="#/" data-to="enquiry" id="heroCta">Start an enquiry</a>
+        <a class="btn quiet" href="tel:+61434398299">or call +61 434 398 299</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="detail">
+    <div class="shell">
+      <div class="cols fadein" id="cols" style="animation-delay:1s">
+        <div><p class="label">What we’ll do</p><ul id="doList"></ul></div>
+        <div><p class="label">What to have ready</p><ul id="readyList"></ul></div>
+        <div class="know"><p class="label">Worth knowing</p><p id="fact"></p><small id="factSrc"></small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band deep">
+    <div class="shell">
+      <h2 class="rv">More than four in five new Australian home loans are now arranged by a broker.</h2>
+      <p class="source rv">81.6% of new residential home loans in the June 2026 quarter. Source: MFAA, from Cotality data.</p>
+      <div class="reasons">
+        <div class="rv"><h3>One person, not five banks</h3><p>Rather than approaching several lenders yourself, you work with one broker who tracks the detail across all of them.</p></div>
+        <div class="rv"><h3>A panel of lenders</h3><p>We compare products across a panel of lenders, not just one bank’s own range, and explain the trade-offs in plain language.</p></div>
+        <div class="rv"><h3>A legal duty to you</h3><p>Since 1 January 2021, Australian mortgage brokers have been required by law to act in the best interests of the borrower.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="how">
+    <div class="shell">
+      <h2 class="rv">From first conversation to settlement, in three steps.</h2>
+      <ol class="steps">
+        <li class="rv"><h3>A short conversation</h3><p>Usually 15 to 20 minutes. We ask about your goals, income and existing commitments so we understand the full picture before suggesting anything.</p></li>
+        <li class="rv"><h3>Comparing your options</h3><p>We look across our lender panel for loans that may suit your circumstances and walk you through what each one would mean for you.</p></li>
+        <li class="rv"><h3>Application to settlement</h3><p>If you’d like to proceed, we help you prepare what’s needed and keep you informed until the loan settles. Timelines depend on your situation and the lender.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band cost" id="cost">
+    <div class="shell">
+      <h2 class="rv">What it costs you to use a broker</h2>
+      <p class="answer rv">Usually, nothing directly.</p>
+      <p class="intro rv">Lenders generally pay the broker a commission when a loan settles, so you don’t pay the broker yourself. Anything that applies to your loan is set out in our <a href="#/credit-guide">Credit Guide</a> before you commit.</p>
+      <ul class="lines">
+        <li class="rv"><span>Your first conversation</span><span>Free</span></li>
+        <li class="rv"><span>Comparing loans across our lender panel</span><span>Paid by the lender in most cases</span></li>
+        <li class="rv"><span>Any fee or commission on your loan</span><span>Disclosed up front, in writing</span></li>
+      </ul>
+      <p class="source rv">How brokers are paid: Moneysmart (ASIC), “Using a mortgage broker”.</p>
+    </div>
+  </section>
+
+  <section class="band" id="about">
+    <div class="shell about">
+      <div>
+        <h2 class="rv">People to talk it through with.</h2>
+        <p class="intro rv">We have very experienced mortgage brokers who are qualified in supporting whatever goals you have with home-loan decisions.</p>
+        <p class="rv" style="margin-top:18px;max-width:33em;color:#3d463f">Qualifications: on average, very high, yet they vary from broker to broker at ONS Finance.</p>
+      </div>
+      <ul class="promise">
+        <li class="rv">Personalized</li>
+        <li class="rv">Customer Priority</li>
+        <li class="rv">Jargon Free</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band deep" id="questions">
+    <div class="shell">
+      <h2 class="rv">Before you get in touch</h2>
+      <div class="faq rv">
+        <details><summary>Does it cost anything to speak with you?</summary><p>An initial conversation is free. If we proceed, how we’re paid is explained up front in our Credit Guide.</p></details>
+        <details><summary>How much deposit do I need?</summary><p>It varies by loan type and lender. Eligible first home buyers can buy with a 5% deposit under the Australian Government 5% Deposit Scheme. A deposit under 20% outside a scheme usually means paying lenders mortgage insurance. We can talk through what applies to you.</p></details>
+        <details><summary>How long does an enquiry take?</summary><p>The first conversation usually takes 15 to 20 minutes. From there, timelines depend on your situation and the lender.</p></details>
+        <details><summary>Is this a loan offer?</summary><p>No. Everything on this site is general information, not a recommendation or a confirmation that you are eligible. Rates, fees and eligibility are set by individual lenders and depend on your circumstances.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="enquiry">
+    <div class="shell enquiry">
+      <div>
+        <h2 class="rv">Ask the question on your mind.</h2>
+        <p class="intro rv">Three short steps and no commitment. Your enquiry goes straight to our inbox and we reply by phone or email.</p>
+        <p class="reach rv">Prefer to talk?
+          <a href="tel:+61434398299">+61 434 398 299</a>
+          <a href="mailto:info@onsfinance.com.au">info@onsfinance.com.au</a>
+        </p>
+      </div>
+      <form id="form" class="rv" novalidate>
+        <div class="progress" id="progress">Step 1 of 3</div>
+        <div class="bar"><i id="bar"></i></div>
+        <div class="stage on" data-stage="1">
+          <h3>How can we reach you?</h3>
+          <label for="nm">Your name</label><input id="nm" autocomplete="name" required>
+          <label for="em">Email address</label><input id="em" type="email" autocomplete="email" required>
+          <label for="ph">Phone number</label><input id="ph" type="tel" autocomplete="tel" required>
+        </div>
+        <div class="stage" data-stage="2">
+          <h3>What loan amount are you considering?</h3>
+          <label for="am">Approximate loan amount (AUD)</label><input id="am" type="number" min="1" step="1000" placeholder="For example, 550000" required>
+          <p class="hint">An estimate is fine. You can discuss details later.</p>
+        </div>
+        <div class="stage" data-stage="3">
+          <h3>What are you hoping to do?</h3>
+          <label for="pur">Loan purpose</label>
+          <select id="pur"><option value="">Choose a purpose</option><option>First home</option><option>Refinance</option><option>Owner-occupied home</option><option>Investment property</option><option>Construction</option><option>Something else</option></select>
+          <p class="hint">Please don’t include or email identity documents, account details or payslips.</p>
+        </div>
+        <div class="stage" data-stage="4" aria-live="polite">
+          <h3 id="resultTitle"></h3>
+          <p id="resultText"></p>
+        </div>
+        <input id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+        <div class="formactions" id="formactions">
+          <button type="button" class="btn quiet" id="back" hidden>Back</button><span id="spacer"></span>
+          <button type="button" class="btn" id="next" disabled>Continue</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+<main id="legal" class="shell" hidden></main>
+</div>
+
+<dialog id="authDialog" aria-labelledby="authTitle">
+  <button type="button" class="close" id="authClose" aria-label="Close">×</button>
+  <h3 id="authTitle">Log in</h3>
+  <p id="authText"></p>
+  <div id="googleBtn"></div>
+  <p class="hint" id="authNote"></p>
+</dialog>
+
+<footer>
+  <div class="shell">
+    <a class="mark" href="#/" data-to="top">ONS Finance</a>
+    <a href="tel:+61434398299">+61 434 398 299</a>
+    <a href="mailto:info@onsfinance.com.au">info@onsfinance.com.au</a>
+    <a href="#/privacy">Privacy</a>
+    <a href="#/credit-guide">Credit Guide</a>
+    <a href="#/disclosure">Disclosure</a>
+    <small>© ONS Finance</small>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+
+/* ========== SETTINGS: paste your two Google values here ==========
+   ENQUIRY_URL       the Web app URL from Google Apps Script (see enquiry-script.gs)
+   GOOGLE_CLIENT_ID  the OAuth client ID from Google Cloud (ends in .apps.googleusercontent.com) */
+const CONFIG={
+  ENQUIRY_URL:'',
+  GOOGLE_CLIENT_ID:''
+};
+
+/* ---------- situations: the sentence that rewrites the page ---------- */
+const situations=[
+ {key:'first',tab:'First home',purpose:'First home',line:'I’m buying my first home.',turn:0,
+  blurb:'Grants, guarantees and deposit options explained in plain language, so you know what you may be eligible for before you start looking.',
+  todo:['Check which government schemes and state concessions you may be eligible for','Work out a realistic borrowing range before you inspect','Compare loans across our lender panel and explain the trade-offs'],
+  ready:['Photo ID','Recent payslips, or tax returns if you’re self-employed','Statements showing your savings'],
+  fact:'Under the Australian Government 5% Deposit Scheme, eligible first home buyers can buy with a 5% deposit and no lenders mortgage insurance. There are no income caps and no limit on places. Property price caps apply.',
+  src:'Source: firsthomebuyers.gov.au. Scheme expanded 1 October 2025.'},
+ {key:'refi',tab:'Refinancing',purpose:'Refinance',line:'I want a better deal on my loan.',turn:-14,
+  blurb:'A review of your current loan against what else is available, including when refinancing is likely to be worth the switching costs.',
+  todo:['Review your current rate, fees and features','Compare them with what other lenders on our panel offer','Weigh the saving against the cost of switching'],
+  ready:['Your latest home loan statements','Recent payslips or tax returns','A rough idea of what your property is worth'],
+  fact:'Refinancing has costs as well as savings: discharge and application fees, and break costs if you leave a fixed rate early. We lay out both sides before you decide.',
+  src:'General information only.'},
+ {key:'next',tab:'Next home',purpose:'Owner-occupied home',line:'I’m moving to my next home.',turn:11,
+  blurb:'Support comparing rate types, loan features and lenders for the home you plan to live in.',
+  todo:['Work out your borrowing range, including equity in your current home','Compare fixed, variable and split loans and features such as offset accounts','Plan the timing between selling and buying'],
+  ready:['Statements for any existing loans','Recent payslips or tax returns','Your savings and an estimate of your equity'],
+  fact:'Buying before you sell usually means either a bridging loan or a settlement timed to match your sale. Which suits you depends on your equity and your timing.',
+  src:'General information only.'},
+ {key:'invest',tab:'Investing',purpose:'Investment property',line:'I’m buying an investment property.',turn:-26,
+  blurb:'Guidance on structuring finance for a rental property, including interest-only options and portfolio considerations.',
+  todo:['Compare investment loans, including interest-only options','Look at how the new loan sits alongside your existing ones','Explain how each lender would assess your application'],
+  ready:['Statements for your existing loans','Recent payslips or tax returns','Any rental income you already receive'],
+  fact:'Lenders assess investment loans differently. Most count only part of the expected rent as income, and rates are often higher than for a home you live in.',
+  src:'General information only. Lender policies vary.'},
+ {key:'build',tab:'Building',purpose:'Construction',line:'I’m building a home.',turn:22,
+  blurb:'Help understanding progressive drawdowns, builder requirements and how lenders assess a build rather than an existing property.',
+  todo:['Explain how a construction loan is drawn down in stages','Check what lenders need from you and your builder','Keep the finance in step with the build through to completion'],
+  ready:['Your building contract, or a builder’s quote','Council-approved plans, if you have them','Recent payslips or tax returns'],
+  fact:'A construction loan is paid to your builder in stages as the work is completed, and you usually pay interest only on what has been drawn so far.',
+  src:'General information only.'}
+];
+const $=id=>document.getElementById(id);
+let current=situations[0];
+
+function setHeadline(text){
+  $('headline').innerHTML=text.split(' ').map((w,i)=>'<span class="w"><span style="animation-delay:'+(i*70)+'ms">'+w+'</span></span>').join(' ');
+}
+function fillDetail(s){
+  $('blurb').textContent=s.blurb;
+  $('doList').innerHTML=s.todo.map(t=>'<li>'+t+'</li>').join('');
+  $('readyList').innerHTML=s.ready.map(t=>'<li>'+t+'</li>').join('');
+  $('fact').textContent=s.fact; $('factSrc').textContent=s.src;
+}
+function choose(s,animate){
+  current=s;
+  document.querySelectorAll('#picker button').forEach(b=>b.setAttribute('aria-selected',b.dataset.key===s.key));
+  setHeadline(s.line);
+  $('rings').style.transform='rotate('+s.turn+'deg) scale('+(1+Math.abs(s.turn)/160)+')';
+  if(!animate){fillDetail(s);return}
+  const cols=$('cols'),blurb=$('blurb');
+  cols.classList.add('swap'); blurb.style.transition='opacity .22s'; blurb.style.opacity=0;
+  setTimeout(()=>{fillDetail(s);cols.classList.remove('swap');blurb.style.opacity=1},230);
+}
+$('picker').innerHTML=situations.map(s=>'<button type="button" role="tab" data-key="'+s.key+'">'+s.tab+'</button>').join('');
+$('picker').addEventListener('click',e=>{const b=e.target.closest('button');if(b)choose(situations.find(s=>s.key===b.dataset.key),true)});
+
+/* ---------- contour lines, drawn once on load ---------- */
+(function(){
+  let out='';const cx=890,cy=370,N=140;
+  for(let i=0;i<15;i++){
+    const r=46+i*40,seed=1.3+i*.13;let d='';
+    for(let a=0;a<=N;a++){
+      const t=a/N*Math.PI*2;
+      const rr=r*(1+.10*Math.sin(3*t+seed)+.05*Math.sin(5*t+seed*1.7)+.028*Math.sin(8*t+seed*.6));
+      d+=(a?'L':'M')+(cx+rr*Math.cos(t)*1.22).toFixed(1)+' '+(cy+rr*Math.sin(t)).toFixed(1);
+    }
+    out+='<path pathLength="1" d="'+d+'Z" style="animation-delay:'+(i*70)+'ms"'+(i===4?' class="hot"':'')+'/>';
+  }
+  $('rings').innerHTML=out;
+})();
+choose(current,false);
+
+/* ---------- enquiry form (opens the visitor's own mail app) ---------- */
+let stage=1;
+const fields={nm:$('nm'),em:$('em'),ph:$('ph'),am:$('am'),pur:$('pur')};
+function valid(){
+  if(stage===1)return fields.nm.value.trim()&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.em.value)&&fields.ph.value.trim();
+  if(stage===2)return Number(fields.am.value)>0;
+  return !!fields.pur.value;
+}
+function paint(){
+  document.querySelectorAll('.stage').forEach(el=>el.classList.toggle('on',Number(el.dataset.stage)===stage));
+  $('formactions').hidden=stage===4;
+  if(stage===4){$('progress').textContent='';$('bar').style.width='100%';return}
+  $('progress').textContent='Step '+stage+' of 3';
+  $('bar').style.width=(stage*33.34)+'%';
+  $('back').hidden=stage===1;
+  $('next').textContent=stage<3?'Continue':'Send enquiry';
+  $('next').disabled=!valid();
+}
+function result(title,text){$('resultTitle').textContent=title;$('resultText').innerHTML=text;stage=4;paint()}
+const contactLine='Call <a href="tel:+61434398299">+61 434 398 299</a> or email <a href="mailto:info@onsfinance.com.au">info@onsfinance.com.au</a>.';
+Object.values(fields).forEach(el=>el.addEventListener('input',()=>{if(stage<4)$('next').disabled=!valid()}));
+$('back').addEventListener('click',()=>{stage--;paint()});
+$('next').addEventListener('click',async()=>{
+  if(!valid())return;
+  if(stage<3){stage++;paint();return}
+  if($('website').value)return; /* spam trap: real visitors never fill this */
+  const data={name:fields.nm.value.trim(),email:fields.em.value.trim(),phone:fields.ph.value.trim(),amount:fields.am.value,purpose:fields.pur.value,page:location.href};
+  if(!CONFIG.ENQUIRY_URL){
+    result('Enquiry sending isn’t connected yet','This form will send once the Google Apps Script address is added to the site settings. Until then: '+contactLine);
+    return;
+  }
+  $('next').disabled=true;$('next').textContent='Sending…';
+  try{
+    /* text/plain keeps this a simple request, which Apps Script web apps accept */
+    const res=await fetch(CONFIG.ENQUIRY_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});
+    const out=await res.json();
+    if(!out.ok)throw new Error(out.error||'not sent');
+    result('Enquiry sent','Thanks, '+esc(data.name.split(' ')[0])+'. We’ll be in touch by phone or email. Nothing else is needed from you for now.');
+  }catch(err){
+    $('next').textContent='Send enquiry';$('next').disabled=false;
+    result('Your enquiry didn’t send','Something went wrong on our side and nothing was sent. '+contactLine);
+  }
+});
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+paint();
+
+/* ---------- legal pages ---------- */
+const legal={
+ '/privacy':['Privacy Policy','DRAFT / REQUIRES REVIEW — this describes intended privacy practices and must be checked against the business’s actual processes before publication.',[['Who we are','ONS Finance is operated by ONS Finance, of [TO BE CONFIRMED: business address]. Contact: info@onsfinance.com.au.'],['Information we may collect','If you contact us, we may receive the details you choose to provide, such as your name, contact details and information about your finance enquiry. Please do not email identity documents or other sensitive information.'],['How information may be used','Information may be used to respond to enquiries and, if you choose to proceed, to discuss or assist with finance options. Confirm actual purposes, systems and retention practices with the business before use.'],['Disclosure and storage','[TO BE CONFIRMED: actual storage, service providers, disclosure practices, overseas handling and security safeguards.] Do not assume this draft describes current systems.'],['Access, correction and complaints','To request access or correction, or raise a privacy concern, contact info@onsfinance.com.au. [TO BE CONFIRMED: complaint handling and escalation details.]'],['Updates','Review and date this policy before publishing and whenever business practices change.']]],
+'/credit-guide':['Credit Guide','DRAFT / REQUIRES REVIEW — complete all placeholders and obtain professional review before publishing.',[['Credit assistance provider','ONS Finance, of [TO BE CONFIRMED: business address].'],['Credit representative and licensee','Broker: [TO BE CONFIRMED: name and credit representative number]. Australian Credit Licence holder / licensee: [TO BE CONFIRMED: legal name and ACL number].'],['Our services','We may assist with assessing your requirements and objectives, considering credit options and helping with an application. Confirm precise scope of services and arrangements before publication.'],['Fees and commissions','[TO BE CONFIRMED: all client fees and commissions or other benefits received, including calculation and when applicable.]'],['Complaints','Contact info@onsfinance.com.au. [TO BE CONFIRMED: internal dispute process, external dispute resolution membership and relevant contact details.]'],['Important information','This draft is general information only and is not legal advice. It does not assert regulatory compliance. Have the final guide reviewed by a qualified Australian compliance professional.']]],
+'/disclosure':['Disclosure Statement','DRAFT / REQUIRES REVIEW — this template is incomplete and is not a claim of legal or regulatory compliance.',[['Business details','Trading name: ONS Finance. Legal entity: ONS Finance. Business address: [TO BE CONFIRMED].'],['Credit licensing details','Credit representative: [TO BE CONFIRMED: name and number]. ACL holder / licensee: [TO BE CONFIRMED: legal name and ACL number].'],['Relationships and benefits','[TO BE CONFIRMED: lender panel, ownership or referral relationships, commissions, fees, conflicts of interest and other benefits relevant to services.]'],['Scope and limitations','Any credit assistance is subject to verification of the business details and client circumstances. This page does not constitute an offer, approval or personal financial advice.'],['Review required','Complete every placeholder and have this statement reviewed by a qualified Australian compliance professional before use. Do not represent this draft as compliant or complete.']]]
+};
+function legalHTML(p){
+  const d=legal[p];
+  return '<div class="legal"><a class="back" href="#/">Back to home</a><h1>'+d[0]+'</h1><p class="lead">'+d[1]+'</p>'+d[2].map(([h,t])=>'<h2>'+h+'</h2><p>'+t+'</p>').join('')+'</div>';
+}
+
+/* ---------- log in / sign up with Google ---------- */
+const dlg=$('authDialog');let gsiReady=false;
+function getUser(){try{return JSON.parse(localStorage.getItem('onsUser'))}catch(e){return null}}
+function setUser(u){try{u?localStorage.setItem('onsUser',JSON.stringify(u)):localStorage.removeItem('onsUser')}catch(e){}paintAuth()}
+function paintAuth(){
+  const u=getUser(),box=$('auth');
+  if(u){
+    box.innerHTML=(u.picture?'<img src="'+esc(u.picture)+'" alt="" referrerpolicy="no-referrer">':'')+'<span class="who">Hi, '+esc(u.first)+'</span><button type="button" class="textlink" data-auth="logout">Log out</button>';
+    if(!fields.nm.value)fields.nm.value=u.name;
+    if(!fields.em.value)fields.em.value=u.email;
+    if(stage<4)$('next').disabled=!valid();
+  }else{
+    box.innerHTML='<button type="button" class="textlink" data-auth="login">Log in</button><button type="button" class="btn small ghost" data-auth="signup">Sign up</button>';
+  }
+}
+function onCredential(resp){
+  try{
+    const part=resp.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
+    const p=JSON.parse(decodeURIComponent(escape(atob(part))));
+    setUser({name:p.name||'',first:p.given_name||(p.name||'').split(' ')[0],email:p.email||'',picture:p.picture||''});
+    dlg.close();
+  }catch(e){$('authNote').textContent='Google sign-in didn’t complete. Please try again.'}
+}
+function loadGsi(done){
+  if(gsiReady)return done();
+  const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;
+  s.onload=()=>{gsiReady=true;google.accounts.id.initialize({client_id:CONFIG.GOOGLE_CLIENT_ID,callback:onCredential});done()};
+  s.onerror=()=>{$('authNote').textContent='Google sign-in couldn’t load. Check your connection and try again.'};
+  document.head.appendChild(s);
+}
+function openAuth(mode){
+  const signup=mode==='signup';
+  $('authTitle').textContent=signup?'Create your account':'Log in';
+  $('authText').textContent=signup?'Use your Google account. We’ll fill in your name and email on enquiries so you don’t retype them.':'Welcome back. Continue with the Google account you signed up with.';
+  $('googleBtn').innerHTML='';$('authNote').textContent='';
+  if(!CONFIG.GOOGLE_CLIENT_ID)$('authNote').textContent='Google sign-in isn’t connected yet. It will work once the Google client ID is added to the site settings.';
+  else loadGsi(()=>google.accounts.id.renderButton($('googleBtn'),{theme:'outline',size:'large',shape:'pill',width:320,text:signup?'signup_with':'signin_with'}));
+  dlg.showModal();
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-auth]');if(!b)return;
+  if(b.dataset.auth==='logout'){if(window.google&&google.accounts)google.accounts.id.disableAutoSelect();setUser(null)}
+  else openAuth(b.dataset.auth);
+});
+$('authClose').addEventListener('click',()=>dlg.close());
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+paintAuth();
+
+/* ---------- the warm glow drifts after the pointer ---------- */
+(function(){
+  const hero=document.querySelector('.hero');
+  if(!hero||matchMedia('(prefers-reduced-motion:reduce)').matches||!matchMedia('(pointer:fine)').matches)return;
+  let tx=0,ty=0,x=0,y=0,run=false;
+  function tick(){x+=(tx-x)*.06;y+=(ty-y)*.06;hero.style.setProperty('--gx',x.toFixed(1)+'px');hero.style.setProperty('--gy',y.toFixed(1)+'px');
+    if(Math.abs(tx-x)+Math.abs(ty-y)>.3)requestAnimationFrame(tick);else run=false}
+  hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect();tx=(e.clientX-r.left-r.width*.7)*.35;ty=(e.clientY-r.top-r.height*.4)*.35;if(!run){run=true;requestAnimationFrame(tick)}});
+  hero.addEventListener('pointerleave',()=>{tx=0;ty=0;if(!run){run=true;requestAnimationFrame(tick)}});
+})();
+
+/* ---------- routing with a soft page transition ---------- */
+const view=$('view');let shown=null;
+function path(){return location.hash.slice(1)||'/'}
+function show(p,scrollTo){
+  const isLegal=!!legal[p],key=isLegal?p:'/';
+  const apply=()=>{
+    $('home').hidden=isLegal;$('legal').hidden=!isLegal;
+    if(isLegal)$('legal').innerHTML=legalHTML(p);
+    shown=key;
+    if(scrollTo){const el=$(scrollTo);if(el)el.scrollIntoView({behavior:'auto',block:'start'})}else window.scrollTo(0,0);
+    view.classList.remove('leaving');
+  };
+  if(shown===null){apply();return}
+  if(shown===key){if(scrollTo){const el=$(scrollTo);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}return}
+  view.classList.add('leaving');setTimeout(apply,280);
+}
+window.addEventListener('hashchange',()=>show(path()));
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a[data-to]');if(!a)return;
+  e.preventDefault();
+  const to=a.dataset.to;
+  if(to==='enquiry'&&a.id==='heroCta'){fields.pur.value=current.purpose;$('next').disabled=!valid()}
+  if(path()!=='/'){history.pushState(null,'','#/');show('/',to)}else show('/',to);
+});
+show(path());
+
+/* ---------- one kind of scroll reveal ---------- */
+if('IntersectionObserver' in window){
+  const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}}),{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%3*90)+'ms';io.observe(el)});
+}else document.querySelectorAll('.rv').forEach(el=>el.classList.add('in'));
+</script>
+</body>
+</html>
